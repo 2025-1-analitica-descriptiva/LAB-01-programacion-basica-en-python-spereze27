@@ -7,22 +7,49 @@ utilizar pandas, numpy o scipy.
 
 
 def pregunta_06():
-    """
-    La columna 5 codifica un diccionario donde cada cadena de tres letras
-    corresponde a una clave y el valor despues del caracter `:` corresponde al
-    valor asociado a la clave. Por cada clave, obtenga el valor asociado mas
-    pequeño y el valor asociado mas grande computados sobre todo el archivo.
+    min_max_por_clave = {}
 
-    Rta/
-    [('aaa', 1, 9),
-     ('bbb', 1, 9),
-     ('ccc', 1, 10),
-     ('ddd', 0, 9),
-     ('eee', 1, 7),
-     ('fff', 0, 9),
-     ('ggg', 3, 10),
-     ('hhh', 0, 9),
-     ('iii', 0, 9),
-     ('jjj', 5, 17)]
+    with open("files/input/data.csv", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            linea = linea.strip()
+            if linea:
+                partes = linea.split("\t")
+                columna5 = partes[4]  # columna con formato clave:valor
+                pares = columna5.split(",")
+                
+                for par in pares:
+                    clave, valor = par.split(":")
+                    valor = int(valor)
+                    
+                    if clave not in min_max_por_clave:
+                        min_max_por_clave[clave] = [valor, valor]  # [min, max]
+                    else:
+                        if valor < min_max_por_clave[clave][0]:
+                            min_max_por_clave[clave][0] = valor
+                        if valor > min_max_por_clave[clave][1]:
+                            min_max_por_clave[clave][1] = valor
 
-    """
+    resultado = [(clave, min_max_por_clave[clave][0], min_max_por_clave[clave][1])
+                 for clave in sorted(min_max_por_clave.keys())]
+    
+    return resultado
+
+"""
+La columna 5 codifica un diccionario donde cada cadena de tres letras
+corresponde a una clave y el valor despues del caracter `:` corresponde al
+valor asociado a la clave. Por cada clave, obtenga el valor asociado mas
+pequeño y el valor asociado mas grande computados sobre todo el archivo.
+
+Rta/
+[('aaa', 1, 9),
+    ('bbb', 1, 9),
+    ('ccc', 1, 10),
+    ('ddd', 0, 9),
+    ('eee', 1, 7),
+    ('fff', 0, 9),
+    ('ggg', 3, 10),
+    ('hhh', 0, 9),
+    ('iii', 0, 9),
+    ('jjj', 5, 17)]
+
+"""

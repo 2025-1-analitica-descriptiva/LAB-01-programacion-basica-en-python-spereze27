@@ -7,9 +7,24 @@ utilizar pandas, numpy o scipy.
 
 
 def pregunta_02():
-    """
-    Retorne la cantidad de registros por cada letra de la primera columna como
-    la lista de tuplas (letra, cantidad), ordendas alfabéticamente.
+    conteo = {}
+
+    with open("files/input/data.csv", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            linea = linea.strip()  # eliminar saltos de línea
+            if linea:
+                partes = linea.split("\t")  # suponiendo que el separador es tabulador
+                letra = partes[0]
+                if letra in conteo:
+                    conteo[letra] += 1
+                else:
+                    conteo[letra] = 1
+
+    # Convertimos el diccionario en lista de tuplas y ordenamos alfabéticamente
+    resultado = sorted(conteo.items())
+
+    return resultado
+"""
 
     Rta/
     [('A', 8), ('B', 7), ('C', 5), ('D', 6), ('E', 14)]
